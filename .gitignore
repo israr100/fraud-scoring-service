@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+*.db
+predictions.db
+data/*.csv
+models/
+.env
+.DS_Store
+.terraform/
+*.tfstate
+*.tfstate.*

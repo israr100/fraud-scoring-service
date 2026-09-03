@@ -1,0 +1,28 @@
+# Local prod-like stack: the API + a Postgres it logs predictions to.
+# `docker compose up --build` gives you the same topology as the cloud deploy.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: fraud
+      POSTGRES_PASSWORD: fraud
+      POSTGRES_DB: fraud
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fraud"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      FRAUD_DATABASE_URL: postgresql+psycopg://fraud:fraud@db:5432/fraud
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy

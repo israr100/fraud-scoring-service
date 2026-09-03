@@ -1,0 +1,10 @@
+# Explicit lint configuration so linting is identical locally and in CI,
+# regardless of the installed ruff version's defaults.
+line-length = 100
+target-version = "py311"
+
+[lint]
+# ruff's stable default rules: pycodestyle errors (E4/E7/E9) + pyflakes (F).
+# These catch real problems (undefined names, unused imports, syntax) without
+# opinionated style churn. Add "I" here later if you want import sorting enforced.
+select = ["E4", "E7", "E9", "F"]
